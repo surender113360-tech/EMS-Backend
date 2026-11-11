@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from pwdlib import PasswordHash
 from jose import jwt
 from db import get_db
-from user_model import users
+from Models import users
 from login_schema import Login
 
 router = APIRouter()
