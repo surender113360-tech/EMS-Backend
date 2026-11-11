@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from db import engine, base
 from create_login import router as auth_router
 from security import check_role, get_curr_user
-import user_model
+import Models
 from HR.router import router as hr_router
 from HR.schemas import EmployeeOffboard 
 from HR import hr_models
@@ -44,14 +44,14 @@ allow_employee_only = ['employee']
 
 
 @app.get('/hr')
-def hr_dashboard(current_user: user_model.users = Depends(check_role(allowed_roles=allow_hr_only))):
+def hr_dashboard(current_user: Models.users = Depends(check_role(allowed_roles=allow_hr_only))):
     return {
         "status": "welcome to the HR dashboard",
         "message": f"Hello Administrative Admin {current_user.email}. Access granted."
     }
 
 @app.get('/employee')
-def employee_dashboard(current_user: user_model.users = Depends(get_curr_user)):
+def employee_dashboard(current_user: Models.users = Depends(get_curr_user)):
     return {
         "message": "welcome to the  employee dashboard",
         "user": current_user.email,
