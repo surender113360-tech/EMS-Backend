@@ -5,17 +5,25 @@ from pydantic import BaseModel,EmailStr,ConfigDict,Field
 class LoginIn(BaseModel):
     email:EmailStr
     password:str
+
+
+
 class TokenOut(BaseModel):
     access_token:str
     token_type:str="bearer"
     role:str
 
+
+
 class UserOut(BaseModel):
-    id:int
-    full_name:str
-    email:EmailStr
-    role:str
-    model_config=ConfigDict(from_attributes=True)
+    id: int
+    full_name: str
+    email: str = Field(validation_alias="emai")
+    role: str
+    model_config = ConfigDict(from_attributes=True)
+
+
+
 
 class EmployeeCreate(BaseModel):
     employee_code:str
@@ -27,16 +35,25 @@ class EmployeeCreate(BaseModel):
     joining_date:date
     salary:float=Field(ge=0)
 
+
+
+
 class EmployeeOut(EmployeeCreate):
-    id:int
-    status:str
-    model_config=ConfigDict(from_attributes=True)
+    id: int
+    email: EmailStr = Field(validation_alias="emai")
+    status: str
+    model_config = ConfigDict(from_attributes=True)
+
+
 
 class LeaveCreate(BaseModel):
     leave_type:str
     start_date:date
     end_date:date
     reason:str
+
+
+
 
 class LeaveOut(LeaveCreate):
     id:int
@@ -45,20 +62,32 @@ class LeaveOut(LeaveCreate):
     applied_at:datetime
     model_config=ConfigDict(from_attributes=True)
 
+
+
+
 class DepartmentIn(BaseModel):
     name:str
+
+
 class DepartmentOut(DepartmentIn):
     id:int
     model_config=ConfigDict(from_attributes=True)
+
+
+
 
 class AnnouncementIn(BaseModel):
     title:str
     message:str
 
+
+
 class AnnouncementOut(AnnouncementIn):
     id:int
     created_at:datetime
     model_config=ConfigDict(from_attributes=True)
+
+
 
 class AttendanceOut(BaseModel):
     id:int
@@ -70,13 +99,18 @@ class AttendanceOut(BaseModel):
     model_config=ConfigDict(from_attributes=True)
 
 
+
+
 class PayrollIn(BaseModel):
     employee_id:int
-    mont:int=Field(ge=1,le=12)
+    month:int=Field(ge=1,le=12)
     year:int=Field(ge=0)
-    basics_salary:float=Field(ge=0)
+    basic_salary:float=Field(ge=0)
     lop_days:int = Field(default=0,ge= 0)
     deductions:float=Field(default=0,ge=0)
+
+
+    
 
 
 class PayrollOut(PayrollIn):
